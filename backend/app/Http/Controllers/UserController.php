@@ -57,13 +57,13 @@ class UserController extends Controller
     {
         $follower = auth()->user();   # follower
         $user_id = $request->query('user_id'); 
-        $follow = Follow::where(['user_id' => $user->id, 'follower_id' => $follower->id])->first();
+        $follow = Follow::where(['user_id' => $user_id, 'follower_id' => $follower->id])->first();
 
         if ($follow) {
             $follow->delete();
             return response()->json(['message' => 'user unfollowed successfully'], 200);
         } else {
-            Follow::create(['user_id' => $user->id, 'follower_id' => $follower->id]);
+            Follow::create(['user_id' => $user_id, 'follower_id' => $follower->id]);
             return response()->json(['message' => 'user followed successfully'], 200);
         }
     }
