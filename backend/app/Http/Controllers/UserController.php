@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -38,8 +37,7 @@ class UserController extends Controller
         return response()->json(['message' => 'Posts retrieved successfully', 'posts' => $userPosts], 200);
     }
 
-    public function toggleLike(Request $request)
-    {
+    public function toggleLike(Request $request){
         $user = auth()->user();
         $post_id = $request->query('post_id'); 
         $like = Like::where(['user_id' => $user->id, 'post_id' => $post_id])->first();
@@ -53,8 +51,7 @@ class UserController extends Controller
         }
     }
 
-    public function follow(Request $request)
-    {
+    public function follow(Request $request){
         $follower = auth()->user();   # follower
         $user_id = $request->query('user_id'); 
         $follow = Follow::where(['user_id' => $user_id, 'follower_id' => $follower->id])->first();
@@ -67,6 +64,25 @@ class UserController extends Controller
             return response()->json(['message' => 'user followed successfully'], 200);
         }
     }
+    
+    public function search(Request $request)
+    {
+        try {
+            $search = $request->query('s'); 
+            $users = User::select('id', 'name', 'email')->where('name', 'like', '%' . $search . '%')->get();
+            
+            return response()->json([
+                'status' => 'success',
+                'users' => $users
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'error',
+            ]);
+        }
+    }
+    
 }
 
 

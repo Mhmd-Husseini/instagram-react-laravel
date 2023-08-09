@@ -25,5 +25,6 @@ Route::group(["middleware" => "auth:api"], function(){
     Route::post("/createPost", [UserController::class, "createPost"]);
     Route::get("/toggleLike", [UserController::class, "toggleLike"]);
     Route::get("/follow", [UserController::class, "follow"]);
+    Route::get("/search", [UserController::class, "search"]); // Add {s} parameter
 });
 
