@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +18,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::post("/login", [AuthController::class, "login"]);
 Route::post("/register", [AuthController::class, "register"]);
+Route::post("/logout", [AuthController::class, "logout"]);
 
 Route::group(["middleware" => "auth:api"], function(){
+    Route::get("/getPosts", [UserController::class, "getPosts"]);
+    Route::post("/createPost", [UserController::class, "createPost"]);
+    Route::get("/toggleLike", [UserController::class, "toggleLike"]);
 
 });
+
