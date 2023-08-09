@@ -41,7 +41,7 @@ class UserController extends Controller
     public function toggleLike(Request $request)
     {
         $user = auth()->user();
-        $post_id = $request->query('post_id'); // Get the post_id from the query parameter
+        $post_id = $request->query('post_id'); 
         $like = Like::where(['user_id' => $user->id, 'post_id' => $post_id])->first();
 
         if ($like) {
@@ -50,6 +50,21 @@ class UserController extends Controller
         } else {
             Like::create(['user_id' => $user->id, 'post_id' => $post_id]);
             return response()->json(['message' => 'Post liked successfully'], 200);
+        }
+    }
+
+    public function follow(Request $request)
+    {
+        $follower = auth()->user();   # follower
+        $user_id = $request->query('user_id'); 
+        $follow = Follow::where(['user_id' => $user->id, 'follower_id' => $follower->id])->first();
+
+        if ($follow) {
+            $follow->delete();
+            return response()->json(['message' => 'user unfollowed successfully'], 200);
+        } else {
+            Follow::create(['user_id' => $user->id, 'follower_id' => $follower->id]);
+            return response()->json(['message' => 'user followed successfully'], 200);
         }
     }
 }
