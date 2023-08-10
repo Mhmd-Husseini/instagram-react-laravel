@@ -1,42 +1,4 @@
-.page{
-    height:100vh;
+.div{
+    margin-left: 400px;
+    width: 50%;
 }
-
-.register span {
-    color: blue;
-    cursor: pointer;
-}
-
-p{
-    text-align: center;
-    font-size: 13px;
-}
-
-.reg {
-    border-radius: 1px;
-    border: 1px solid #dbdbdb;
-    margin-bottom: 10px;
-    height: 500px;
-    width: 400px;
-}
-
-.register-form * {
-    margin: 0 40px 6px;
-    border-radius: 1px;
-    border: 1px solid #dbdbdb;
-}
-
-.register-form .register-btn {
-    background-color: rgba(0, 149, 246);
-    border: none;
-    padding: 7px 16px;
-    border-radius: 8px;
-    color: white;
-    cursor: pointer;
-    margin-bottom: 40px;
-}
-
-input{
-    padding: 10px;
-}
-
