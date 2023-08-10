@@ -67,13 +67,25 @@ class UserController extends Controller
     
     public function search(Request $request)
     {
+        $user = auth()->user();
         try {
             $search = $request->query('s'); 
-            $users = User::select('id', 'name', 'email')->where('name', 'like', '%' . $search . '%')->get();
+            $users = User::select('id', 'name', 'email')
+                ->where('name', 'like', '%' . $search . '%')
+                ->get();
             
+            $usersWithFollowStatus = $users->map(function ($userItem) use ($user) {
+                $isFollowing = DB::table('follows')
+                    ->where('follower_id', $user->id)
+                    ->where('user_id', $userItem->id)
+                    ->exists();
+                $userItem->is_followed = $isFollowing;
+                return $userItem;
+                });
+                
             return response()->json([
                 'status' => 'success',
-                'users' => $users
+                'users' => $usersWithFollowStatus
             ]);
         } catch (Exception $e) {
             return response()->json([
@@ -82,7 +94,6 @@ class UserController extends Controller
             ]);
         }
     }
-    
 }
 
 
